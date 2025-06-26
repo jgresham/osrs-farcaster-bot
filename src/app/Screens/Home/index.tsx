@@ -366,7 +366,7 @@ const Home = () => {
       <main className="flex flex-col flex-grow justify-center items-center">
       {user ? (
         <>
-          <NeynarProfileCard fid={user.fid} viewerFid={3} />
+          {/* <NeynarProfileCard fid={user.fid} viewerFid={3} /> */}
           <div className="mt-2 mb-4 w-full flex flex-col items-center">
           {signerSaved === true && (
             <span className="flex items-center">
@@ -380,15 +380,15 @@ const Home = () => {
           </div>
           {user.signer_uuid && (
             <div className="mb-4 w-full flex flex-col items-center">
-              <span className="text-xs text-gray-500">Your OSRS Farcaster Bot Link:</span>
+              <span className="text-xs text-gray-700 font-medium mb-1">Copy this link and paste it in the RuneLite Dink plugin Primary Webhook URL:</span>
               <span className="font-mono text-sm bg-gray-100 rounded px-2 py-1 select-all break-all flex items-center gap-1">
-                {`https://osrs-farcaster-bot.vercel.app/i/${user.signer_uuid}`}
+                {`https://osrs-farcaster-bot.vercel.app/api/i/${user.signer_uuid}`}
                 <button
                   type="button"
                   aria-label={linkCopied ? 'Copied!' : 'Copy link'}
                   className="ml-1 p-1 rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   onClick={async () => {
-                    await navigator.clipboard.writeText(`https://osrs-farcaster-bot.vercel.app/i/${user.signer_uuid}`);
+                    await navigator.clipboard.writeText(`https://osrs-farcaster-bot.vercel.app/api/i/${user.signer_uuid}`);
                     setLinkCopied(true);
                     setTimeout(() => setLinkCopied(false), 1200);
                   }}
@@ -405,6 +405,15 @@ const Home = () => {
                   )}
                 </button>
               </span>
+            <div className="mt-4 w-full flex flex-col items-center">
+              <span className="text-xs text-gray-700 font-medium mb-2">Screenshot showing where to paste the webhook URL:</span>
+              <img 
+                src="/dink-paste-url-screenshot.png" 
+                alt="Screenshot showing RuneLite Dink plugin webhook URL configuration"
+                className="max-w-full h-auto rounded-lg border border-gray-200 shadow-sm"
+                style={{ maxWidth: '500px' }}
+              />
+            </div>
             </div>
             
           )}

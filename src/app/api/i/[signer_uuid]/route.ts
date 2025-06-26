@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import neynarClient from "@/clients/neynar";
+import { put } from '@vercel/blob';
 
 // curl -X POST http://localhost:4500/i/12345 \
 //   -H "Content-Type: multipart/form-data" \
@@ -28,6 +30,7 @@ export async function POST(req: NextRequest, { params }: { params: { signer_uuid
 
     const file = formData.get('file');
     let fileInfo = null;
+    let publicImageUrl = null;
     if (file && file instanceof Blob) {
       console.log('File received:', { type: file.type, size: file.size });
       if (!(file.type === 'image/png' || file.type === 'image/jpeg')) {
@@ -42,9 +45,50 @@ export async function POST(req: NextRequest, { params }: { params: { signer_uuid
         type: file.type,
         size: file.size,
       };
-      // If you want to process the file, you can use: await file.arrayBuffer()
+      // Upload to Vercel Blob
+      const blobResult = await put(file.name, file, {
+        access: 'public',
+        addRandomSuffix: true,
+      });
+      publicImageUrl = blobResult.url;
+      console.log("file uploaded successfully. publicImageUrl", publicImageUrl);
     } else {
       console.log('No file uploaded');
+    }
+
+    // Send to Farcaster
+    // Call Neynar Cast API
+
+    // Get signer_uuid from params
+    const { signer_uuid } = params;
+
+    // For now, use placeholder text - you can customize this based on payload
+    let castText = payload.content || "Hello from OSRS Farcaster Bot! 🎮";
+    if (payload.type) {
+      castText = payload.type + "\n" + castText;
+    }
+
+    let hash = null;
+    try {
+      console.log("signer_uuid", signer_uuid);
+      console.log("castText", castText);
+      const embedArr = publicImageUrl ? [{ url: publicImageUrl }] : [];
+      hash = await neynarClient.publishCast(
+        signer_uuid,
+        castText,
+        {
+          embeds: embedArr,
+          channelId: "osrs"
+        }
+      );
+      console.log('Cast posted successfully with hash:', hash);
+    } catch (castError) {
+      console.log("castError", castError);
+      console.error('Error posting to Farcaster:', castError);
+      return NextResponse.json({
+        error: 'Failed to post to Farcaster',
+        details: (castError as Error).message
+      }, { status: 500 });
     }
 
     const response = {
@@ -52,6 +96,7 @@ export async function POST(req: NextRequest, { params }: { params: { signer_uuid
       payload,
       file: fileInfo,
       status: 'received',
+      farcaster_cast_hash: hash
     };
     console.log('Response:', response);
     return NextResponse.json(response);
