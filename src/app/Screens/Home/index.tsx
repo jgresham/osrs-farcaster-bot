@@ -380,15 +380,15 @@ const Home = () => {
           </div>
           {user.signer_uuid && (
             <div className="mb-4 w-full flex flex-col items-center">
-              <span className="text-xs text-gray-700 font-medium mb-1">Copy this link and paste it in the RuneLite Dink plugin Primary Webhook URL:</span>
+              <span className="text-xs text-gray-700 font-medium mb-1">Copy your secret link and paste it in the RuneLite Dink plugin Primary Webhook URL:</span>
               <span className="font-mono text-sm bg-gray-100 rounded px-2 py-1 select-all break-all flex items-center gap-1">
-                {`https://osrs-farcaster-bot.vercel.app/api/i/${user.signer_uuid}`}
+                {`https://castosrs.xyz/api/i/${user.signer_uuid}`}
                 <button
                   type="button"
                   aria-label={linkCopied ? 'Copied!' : 'Copy link'}
                   className="ml-1 p-1 rounded hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   onClick={async () => {
-                    await navigator.clipboard.writeText(`https://osrs-farcaster-bot.vercel.app/api/i/${user.signer_uuid}`);
+                    await navigator.clipboard.writeText(`https://castosrs.xyz/api/i/${user.signer_uuid}`);
                     setLinkCopied(true);
                     setTimeout(() => setLinkCopied(false), 1200);
                   }}
@@ -406,12 +406,19 @@ const Home = () => {
                 </button>
               </span>
             <div className="mt-4 w-full flex flex-col items-center">
-              <span className="text-xs text-gray-700 font-medium mb-2">Screenshot showing where to paste the webhook URL:</span>
-              <img 
+              <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg mb-2">
+                <svg className="w-4 h-4 text-amber-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                <span className="text-xs text-amber-800 font-medium">Do not share or show this link to anyone!</span>
+              </div>
+              <Image 
                 src="/dink-paste-url-screenshot.png" 
                 alt="Screenshot showing RuneLite Dink plugin webhook URL configuration"
+                width={500}
+                height={300}
                 className="max-w-full h-auto rounded-lg border border-gray-200 shadow-sm"
-                style={{ maxWidth: '500px' }}
+                priority
               />
             </div>
             </div>

@@ -63,10 +63,10 @@ export async function POST(req: NextRequest, { params }: { params: { signer_uuid
     const { signer_uuid } = params;
 
     // For now, use placeholder text - you can customize this based on payload
-    let castText = payload.content || "Hello from OSRS Farcaster Bot! 🎮";
-    if (payload.type) {
-      castText = payload.type + "\n" + castText;
-    }
+    let castText = payload.content || "🎮 Event reported from OSRS Farcaster Bot";
+    // if (payload.type) {
+    //   castText = payload.type + "\n" + castText;
+    // }
 
     let hash = null;
     try {
@@ -92,9 +92,6 @@ export async function POST(req: NextRequest, { params }: { params: { signer_uuid
     }
 
     const response = {
-      signer_uuid: params.signer_uuid,
-      payload,
-      file: fileInfo,
       status: 'received',
       farcaster_cast_hash: hash
     };
