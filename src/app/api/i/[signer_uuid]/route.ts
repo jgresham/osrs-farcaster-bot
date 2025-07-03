@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import neynarClient from "@/clients/neynar";
 import { put } from '@vercel/blob';
+import { getSocialPostTextFromDinkPayload } from './payload-parser';
 
 // curl -X POST http://localhost:4500/i/12345 \
 //   -H "Content-Type: multipart/form-data" \
@@ -63,7 +64,10 @@ export async function POST(req: NextRequest, { params }: { params: { signer_uuid
     const { signer_uuid } = params;
 
     // For now, use placeholder text - you can customize this based on payload
-    let castText = payload.content || "🎮 Event reported from OSRS Farcaster Bot";
+    let castText = getSocialPostTextFromDinkPayload(payload);
+    if (!castText) {
+      castText = "🎮 Event reported from OSRS Farcaster Bot";
+    }
     // if (payload.type) {
     //   castText = payload.type + "\n" + castText;
     // }
@@ -72,6 +76,7 @@ export async function POST(req: NextRequest, { params }: { params: { signer_uuid
     try {
       console.log("signer_uuid", signer_uuid);
       console.log("castText", castText);
+      // return;
       const embedArr = publicImageUrl ? [{ url: publicImageUrl }] : [];
       hash = await neynarClient.publishCast(
         signer_uuid,

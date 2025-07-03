@@ -1,4 +1,34 @@
-# wownar-react-sdk
+# OSRS Farcaster Bot
+
+## Testing
+Local curl command
+```shell
+curl -X POST http://localhost:4500/api/i/<secret> \
+  -H "Content-Type: multipart/form-data" \
+  -F 'payload_json={
+  "type": "LEVEL",
+  "playerName": "FarcastOSRS",
+  "accountType": "IRONMAN",
+  "dinkAccountHash": "sjdfjslkdjfklsjd",
+  "extra": {
+    "levelledSkills": {
+      "Woodcutting": 30
+    },
+    "allSkills": {
+      "Skill name": 30,
+      "Other skill": 1
+    },
+    "combatLevel": {
+      "value": 50,
+      "increased": false
+    }
+  }
+}; type=application/json' \
+  -F 'file=@/Users/johns/dev/osrs-farcaster-bot/public/test-level-ss.png; filename=screenshot.png; type=image/png'
+```
+
+
+## wownar-react-sdk
 
 ## Introduction
 

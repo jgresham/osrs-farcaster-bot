@@ -45,10 +45,17 @@ const ScreenLayout = ({ children }: Props) => {
           <span className="font-bold">Sign in with Neynar</span>
         </Link> */}
         <Link
-          href="https://github.com/neynarxyz/farcaster-examples/tree/main/wownar-react-sdk"
+          href="https://github.com/jgresham/osrs-farcaster-bot"
           target="_blank"
         >
-          Github Repo -&gt; <span className="font-bold">Wownar</span>
+          Cast OSRS Github Repo
+        </Link>
+        <Link
+          href="https://github.com/neynarxyz/farcaster-examples/tree/main/wownar-react-sdk"
+          target="_blank"
+          className="text-xs"
+        >
+          Built using -&gt; <span className="font-bold">Wownar</span>
         </Link>
       </footer>
     </div>
