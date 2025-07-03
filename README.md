@@ -1,4 +1,12 @@
-# OSRS Farcaster Bot
+# Cast OSRS - An OSRS Farcaster Bot
+1. Create a Farcaster account at https://farcaster.xyz
+2. Go to https://castosrs.xyz, give it permission to cast, and get a secret  url
+3. Paste the secret url in the RuneLite Dink plugin. Done!
+4. Extra: Customize when a cast is made by changing the Dink plugin settings.
+
+![CastOSRS-og-image](https://github.com/user-attachments/assets/5deda986-3f38-41f0-9f93-499f6d8e62b5)
+
+
 
 ## Testing
 Local curl command
